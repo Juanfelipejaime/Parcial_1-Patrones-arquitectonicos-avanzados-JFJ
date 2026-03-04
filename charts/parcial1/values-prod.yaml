@@ -1,17 +1,50 @@
-replicaCount: 2
+# ─────────────────────────────────────────
+#  VALUES PARA ENTORNO PROD
+# ─────────────────────────────────────────
+global:
+  environment: prod
+
+db:
+  auth:
+    # En prod: usar External Secret o pasar --set en pipeline CI/CD
+    # NUNCA hardcodear aquí la contraseña real
+    password: ""
+    postgresPassword: ""
+  primary:
+    persistence:
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
 
 backend:
-  image:
-    repository: nginx
-    tag: latest
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+    targetCPUUtilizationPercentage: 60
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 frontend:
-  image:
-    repository: nginx
-    tag: latest
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
 
-postgresql:
-  auth:
-    username: produser
-    password: prodpass
-    database: parcial1db
+ingress:
+  host: pedido.ejemplo.com
