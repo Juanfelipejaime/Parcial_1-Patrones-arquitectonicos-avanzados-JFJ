@@ -160,39 +160,89 @@ tolerations: []
 
 affinity: {}
 
-postgresql:
-  image:
-    registry: docker.io
-    repository: bitnamilegacy/postgresql
-    tag: 16.4.0-debian-12-r0
-    
+# ─────────────────────────────────────────
+#  GLOBAL
+# ─────────────────────────────────────────
+global:
+  environment: base
+
+# ─────────────────────────────────────────
+#  BASE DE DATOS (Bitnami PostgreSQL)
+# ─────────────────────────────────────────
+db:
+  enabled: true
   auth:
-    username: pedidos_user
-    password: pedidos_pass_123
-    database: pedidos_db
+    username: pedidouser
+    password: ""          # Sobreescribir en values-dev/prod o desde Secret externo
+    database: pedidodb
+    # La contraseña de postgres admin también debe setearse
+    postgresPassword: ""
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
 
+# ─────────────────────────────────────────
+#  BACKEND (Spring Boot)
+# ─────────────────────────────────────────
 backend:
-  replicaCount: 1
   image:
-    repository: nginx
+    repository: danielimbert/spring-boot-postgresql-crud
     tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  service:
+    type: ClusterIP
+    port: 8080
   resources:
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: 250m
+      memory: 256Mi
     limits:
-      cpu: "250m"
-      memory: "256Mi"
+      cpu: 500m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+  env:
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://pedido-app-postgresql:5432/pedidodb"
+    SPRING_DATASOURCE_USERNAME: pedidouser
 
+# ─────────────────────────────────────────
+#  FRONTEND (React/Nginx)
+# ─────────────────────────────────────────
 frontend:
-  replicaCount: 1
   image:
     repository: nginx
-    tag: latest
+    tag: alpine
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 80
   resources:
     requests:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: 100m
+      memory: 128Mi
     limits:
-      cpu: "250m"
-      memory: "256Mi"
+      cpu: 200m
+      memory: 256Mi
+
+# ─────────────────────────────────────────
+#  INGRESS
+# ─────────────────────────────────────────
+ingress:
+  enabled: true
+  className: nginx
+  host: pedido.ejemplo.com
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
