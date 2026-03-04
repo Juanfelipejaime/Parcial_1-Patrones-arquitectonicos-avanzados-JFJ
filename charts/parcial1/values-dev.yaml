@@ -1,17 +1,45 @@
-replicaCount: 1
+# ─────────────────────────────────────────
+#  VALUES PARA ENTORNO DEV
+# ─────────────────────────────────────────
+global:
+  environment: dev
+
+db:
+  auth:
+    password: "dev-password-123"
+    postgresPassword: "dev-admin-123"
+  primary:
+    persistence:
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi
 
 backend:
-  image:
-    repository: nginx
-    tag: latest
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
 
 frontend:
-  image:
-    repository: nginx
-    tag: latest
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
-postgresql:
-  auth:
-    username: devuser
-    password: devpass
-    database: parcial1db
+ingress:
+  host: dev.pedido.ejemplo.com
