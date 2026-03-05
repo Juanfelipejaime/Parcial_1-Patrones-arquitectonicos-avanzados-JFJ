@@ -1,6 +1,3 @@
-# ─────────────────────────────────────────
-#  VALUES PARA ENTORNO DEV
-# ─────────────────────────────────────────
 global:
   environment: dev
 
@@ -10,20 +7,26 @@ db:
     postgresPassword: "dev-admin-123"
   primary:
     persistence:
-      size: 2Gi
+      size: 1Gi
     resources:
       requests:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 250m
+        cpu: 200m
         memory: 256Mi
 
 backend:
-  image:
-    repository: suryaputraku/spring-boot-crud
-    tag: latest
-    pullPolicy: IfNotPresent
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+        memory: 256Mi
 
 frontend:
   replicaCount: 1
@@ -36,4 +39,4 @@ frontend:
       memory: 128Mi
 
 ingress:
-  host: dev.pedido.ejemplo.com
+  host: dev.parcial1.ejemplo.com
