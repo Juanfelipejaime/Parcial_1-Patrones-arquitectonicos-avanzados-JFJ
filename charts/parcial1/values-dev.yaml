@@ -1,19 +1,42 @@
+# ─────────────────────────────────────────
+#  VALUES PARA ENTORNO DEV
+# ─────────────────────────────────────────
 global:
   environment: dev
 
 db:
+  image:
+    tag: "15.6.0-debian-11-r16"
   auth:
     password: "dev-password-123"
     postgresPassword: "dev-admin-123"
-  image:
-    tag: "15.6.0-debian-11-r16"
+  primary:
+    persistence:
+      size: 1Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
 
 backend:
   image:
     repository: suryaputraku/spring-boot-crud
     tag: latest
     pullPolicy: IfNotPresent
-    
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
 frontend:
   replicaCount: 1
   resources:
@@ -26,3 +49,4 @@ frontend:
 
 ingress:
   host: dev.parcial1.ejemplo.com
+
