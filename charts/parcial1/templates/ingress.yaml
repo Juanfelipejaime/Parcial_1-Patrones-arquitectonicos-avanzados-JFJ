@@ -21,12 +21,12 @@ spec:
               service:
                 name: {{ include "parcial1.fullname" . }}-backend
                 port:
-                  number: {{ .Values.backend.service.port }}
+                  number: 8080
           - path: /()(.*)
             pathType: ImplementationSpecific
             backend:
               service:
                 name: {{ include "parcial1.fullname" . }}-frontend
                 port:
-                  number: {{ .Values.frontend.service.port }}
+                  number: 80
 {{- end }}
