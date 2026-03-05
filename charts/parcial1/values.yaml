@@ -172,9 +172,7 @@ global:
 db:
   enabled: true
   image:
-    registry: docker.io
-    repository: postgres
-    tag: "15-alpine"
+    tag: "15.6.0-debian-11-r16"
   auth:
     username: pedidouser
     password: ""
