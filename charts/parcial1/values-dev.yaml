@@ -9,17 +9,11 @@ db:
     tag: "15.6.0-debian-11-r16"
 
 backend:
-  replicaCount: 1
-  autoscaling:
-    enabled: false
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 200m
-      memory: 256Mi
-
+  image:
+    repository: suryaputraku/spring-boot-crud
+    tag: latest
+    pullPolicy: IfNotPresent
+    
 frontend:
   replicaCount: 1
   resources:
