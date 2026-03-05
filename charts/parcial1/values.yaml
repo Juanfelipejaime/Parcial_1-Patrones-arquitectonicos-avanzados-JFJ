@@ -171,23 +171,26 @@ global:
 # ─────────────────────────────────────────
 db:
   enabled: true
+  image:
+    registry: docker.io
+    repository: postgres
+    tag: "15-alpine"
   auth:
     username: pedidouser
-    password: ""          # Sobreescribir en values-dev/prod o desde Secret externo
+    password: ""
     database: pedidodb
-    # La contraseña de postgres admin también debe setearse
     postgresPassword: ""
   primary:
     persistence:
       enabled: true
-      size: 5Gi
+      size: 1Gi
     resources:
       requests:
-        cpu: 250m
-        memory: 256Mi
+        cpu: 100m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 512Mi
+        cpu: 200m
+        memory: 256Mi
 
 # ─────────────────────────────────────────
 #  BACKEND (Spring Boot)
