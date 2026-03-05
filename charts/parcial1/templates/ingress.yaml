@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "pedido-app.fullname" . }}-ingress
+  name: {{ include "parcial1.fullname" . }}-ingress
   labels:
-    app.kubernetes.io/name: {{ include "pedido-app.name" . }}
+    app.kubernetes.io/name: {{ include "parcial1.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
@@ -19,14 +19,14 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ include "pedido-app.fullname" . }}-backend
+                name: {{ include "parcial1.fullname" . }}-backend
                 port:
                   number: {{ .Values.backend.service.port }}
           - path: /()(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ include "pedido-app.fullname" . }}-frontend
+                name: {{ include "parcial1.fullname" . }}-frontend
                 port:
                   number: {{ .Values.frontend.service.port }}
 {{- end }}
