@@ -11,8 +11,7 @@ spec:
   project: default
 
   source:
-    # ⚠️ Reemplaza con la URL real de tu repositorio GitHub
-    repoURL: https://github.com/Juanfelipejaime/Parcial_1-Patrones-arquitectonicos-avanzados-JFJ/new/main/environments.git
+    repoURL: https://github.com/Juanfelipejaime/Parcial_1-Patrones-arquitectonicos-avanzados-JFJ.git
     targetRevision: HEAD
     path: charts/parcial1
     helm:
