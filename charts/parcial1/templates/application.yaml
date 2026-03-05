@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pedido-app-dev
+  namespace: argocd
+  labels:
+    environment: dev
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Juanfelipejaime/Parcial_1-Patrones-arquitectonicos-avanzados-JFJ.git
+    targetRevision: HEAD
+    path: charts/pedido-app
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pedido-app-dev
+
+  syncPolicy:
+    automated:
+      prune: true       # Elimina recursos que ya no están en Git
+      selfHeal: true    # Reconcilia si alguien toca el clúster a mano
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
