@@ -5,16 +5,8 @@ db:
   auth:
     password: "dev-password-123"
     postgresPassword: "dev-admin-123"
-  primary:
-    persistence:
-      size: 1Gi
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 200m
-        memory: 256Mi
+  image:
+    tag: "15.6.0-debian-11-r16"
 
 backend:
   replicaCount: 1
