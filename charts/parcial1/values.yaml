@@ -167,7 +167,7 @@ global:
   environment: base
 
 # ─────────────────────────────────────────
-#  BASE DE DATOS (Bitnami PostgreSQL)
+#  BASE DE DATOS PostgreSQL
 # ─────────────────────────────────────────
 db:
   enabled: true
@@ -214,7 +214,7 @@ backend:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 70
   env:
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://pedido-app-postgresql:5432/pedidodb"
+    SPRING_DATASOURCE_URL: "jdbc:postgresql://parcial1-postgresql:5432/pedidodb"
     SPRING_DATASOURCE_USERNAME: pedidouser
 
 # ─────────────────────────────────────────
@@ -242,6 +242,10 @@ frontend:
 # ─────────────────────────────────────────
 ingress:
   enabled: true
+  className: nginx
+  host: pedido.ejemplo.com
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
   className: nginx
   host: pedido.ejemplo.com
   annotations:
