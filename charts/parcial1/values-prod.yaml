@@ -5,39 +5,34 @@ global:
   environment: prod
 
 db:
+  image:
+    tag: "15.6.0-debian-11-r16"
   auth:
-    # En prod: usar External Secret o pasar --set en pipeline CI/CD
-    # NUNCA hardcodear aquí la contraseña real
+    # En prod: pasar con --set en pipeline CI/CD, NUNCA hardcodear
     password: ""
     postgresPassword: ""
   primary:
     persistence:
-      size: 10Gi
+      size: 1Gi
     resources:
       requests:
-        cpu: 500m
-        memory: 512Mi
+        cpu: 100m
+        memory: 128Mi
       limits:
-        cpu: 1000m
-        memory: 1Gi
+        cpu: 200m
+        memory: 256Mi
 
 backend:
+  image:
+    repository: suryaputraku/spring-boot-crud
+    tag: latest
+    pullPolicy: IfNotPresent
   replicaCount: 1
   autoscaling:
-    enabled: false
-    minReplicas: 2
-    maxReplicas: 8
-    targetCPUUtilizationPercentage: 60
-  resources:
-    requests:
-      cpu: 250m
-      memory: 256Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
-
-frontend:
-  replicaCount: 1
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 70
   resources:
     requests:
       cpu: 100m
@@ -46,5 +41,15 @@ frontend:
       cpu: 200m
       memory: 256Mi
 
+frontend:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
 ingress:
-  host: pedido.ejemplo.com
+  host: parcial1.ejemplo.com
