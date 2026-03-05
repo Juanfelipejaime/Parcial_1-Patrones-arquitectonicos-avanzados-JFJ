@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pedido-app.fullname" . }}-frontend
+  name: {{ include "parcial1.fullname" . }}-frontend
   labels:
-    app.kubernetes.io/name: {{ include "pedido-app.name" . }}
+    app.kubernetes.io/name: {{ include "parcial1.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: frontend
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -11,13 +11,13 @@ spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "pedido-app.name" . }}
+      app.kubernetes.io/name: {{ include "parcial1.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
       app.kubernetes.io/component: frontend
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "pedido-app.name" . }}
+        app.kubernetes.io/name: {{ include "parcial1.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: frontend
     spec:
