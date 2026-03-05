@@ -22,9 +22,9 @@ db:
         memory: 1Gi
 
 backend:
-  replicaCount: 2
+  replicaCount: 1
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 2
     maxReplicas: 8
     targetCPUUtilizationPercentage: 60
@@ -37,7 +37,7 @@ backend:
       memory: 512Mi
 
 frontend:
-  replicaCount: 2
+  replicaCount: 1
   resources:
     requests:
       cpu: 100m
